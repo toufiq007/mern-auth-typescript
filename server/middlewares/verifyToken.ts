@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.models";
 
+const JWT_SECRET = "2Cvle7xrsmsQrjFT";
 // Augment the Request type to include the user property
 declare global {
   namespace Express {
@@ -23,8 +24,11 @@ export const verifyToken = async (
         message: "not authorized,no valid token",
       });
     }
-    const verifiedToken = jwt.verify(token, process.env.JWT_SECRET as string);
+    const verifiedToken = jwt.verify(token, JWT_SECRET);
+    console.log(verifiedToken);
     req.user = await UserModel.findById(verifiedToken?.id);
     next();
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };

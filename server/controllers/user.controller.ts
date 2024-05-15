@@ -64,8 +64,11 @@ const userLogout = async (req: Request, res: Response) => {
 // get user profile
 const getUserProfile = async (req: Request, res: Response) => {
   try {
+    const user = req.user;
+    console.log(user);
     res.status(200).json({
       message: "welcom to user",
+      user: user,
     });
   } catch (err) {
     console.log(err);
