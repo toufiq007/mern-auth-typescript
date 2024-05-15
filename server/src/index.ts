@@ -2,9 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import router from "../routes/user.routes";
+import { conenctDB } from "../config/dbConfig";
 
 dotenv.config();
 const port = process.env.PORT || 8000;
+conenctDB()
 
 const app = express();
 
