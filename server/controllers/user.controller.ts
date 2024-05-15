@@ -52,8 +52,9 @@ const userLogin = async (req: Request, res: Response) => {
 // public route
 const userLogout = async (req: Request, res: Response) => {
   try {
+    res.cookie("auth_token", "", { expires: new Date(Date.now()) });
     res.status(200).json({
-      message: "user logout successfull",
+      message: " logout successfull",
     });
   } catch (err) {
     console.log(err);
