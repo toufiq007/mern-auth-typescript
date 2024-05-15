@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import bcrypt from "bcryptjs";
 
 // Define interface for Document
 interface IUser extends Document {
@@ -18,6 +19,21 @@ const UserSchema: Schema = new Schema(
   },
   { timestamps: true }
 );
+
+// Middleware to hash password before saving
+UserSchema.pre<IUser>("save", async function (next) {
+  const user = this;
+  if (!user.isModified("password")) return next();
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+    user.password = hashedPassword;
+    return next();
+  } catch (error: any) {
+    return next(error);
+  }
+});
 
 // Create and export mongoose model
 const UserModel = mongoose.model<IUser>("User", UserSchema);
