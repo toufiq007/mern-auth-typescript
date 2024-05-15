@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserModel, { IUser } from "../models/user.models";
 import generateToken from "../utils/generateToken";
-
+import bcrypt from "bcryptjs";
 // public route
 const userRegistration = async (req: Request, res: Response) => {
   try {
@@ -31,6 +31,16 @@ const userRegistration = async (req: Request, res: Response) => {
 // public route
 const userLogin = async (req: Request, res: Response) => {
   try {
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      res.status(400).json({ message: "user is not registered" });
+    }
+    const isMatch = await bcrypt.compare(password, user?.password as string);
+    if (email !== user?.email || !isMatch) {
+      return res.status(400).json({ message: "invalid credentials" });
+    }
+    generateToken(res, user?._id);
     res.status(200).json({
       message: "user login successfull",
     });
