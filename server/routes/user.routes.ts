@@ -10,5 +10,5 @@ router.post("/logout", userController.userLogout);
 router
   .route("/profile")
   .get(verifyToken, userController.getUserProfile)
-  .put(userController.updateUserProfile);
+  .put(verifyToken, userController.updateUserProfile);
 export default router;

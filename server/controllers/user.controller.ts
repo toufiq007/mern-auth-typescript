@@ -76,13 +76,42 @@ const getUserProfile = async (req: Request, res: Response) => {
 };
 
 // update user profile
+// const updateUserProfile = async (req: Request, res: Response) => {
+//   try {
+//     const user = await UserModel.findById(req.user._id);
+//     const { firstName, lastName, email, password } = req.body;
+//     if (firstName) user?.firstName = firstName;
+//     if (lastName) user.lastName = lastName;
+//     if (email) user.email = email;
+//     if (password) user.password = password;
+
+//     res.status(200).json({
+//       message: "updated user successfully",
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 const updateUserProfile = async (req: Request, res: Response) => {
-  try {
-    res.status(200).json({
-      message: "welcom to user",
+  const user = await UserModel.findById(req.user._id);
+
+  if (user) {
+    user.password = req.body.name || user.password;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      email: updatedUser.email,
     });
-  } catch (err) {
-    console.log(err);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
   }
 };
 
