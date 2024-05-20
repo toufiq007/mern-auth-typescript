@@ -1,4 +1,5 @@
 import { Box, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -21,22 +22,26 @@ const HeroSection = () => {
           stack
         </p>
         <Box sx={{ marginTop: "30px" }}>
-          <Button
-            variant="contained"
-            size="small"
-            sx={{ marginRight: "20px", textTransform: "capitalize" }}
-          >
-            Sign In
-          </Button>
+          <Link to="sign-in">
+            <Button
+              variant="contained"
+              size="small"
+              sx={{ marginRight: "20px", textTransform: "capitalize" }}
+            >
+              Sign In
+            </Button>
+          </Link>
 
-          <Button
-            variant="contained"
-            size="small"
-            color="secondary"
-            style={{ textTransform: "capitalize" }}
-          >
-            Sign UP
-          </Button>
+          <Link to="/sign-up">
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{ textTransform: "capitalize" }}
+            >
+              Sign UP
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Box>
