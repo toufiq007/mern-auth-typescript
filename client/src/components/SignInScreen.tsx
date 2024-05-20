@@ -8,12 +8,14 @@ type FromType = {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FromType>();
   const onSubmit = (data: { email: string; password: string }) => {
@@ -90,39 +92,66 @@ const SignInScreen = () => {
               borderRadius: "10px",
             }}
             type="password"
-            {...register("password", { required: "Email is required!!" })}
+            {...register("password", { required: "password is required!!" })}
           />
           {errors.password && (
-            <p style={{ color: "red" }}>{errors.email?.message}</p>
+            <p style={{ color: "red" }}>{errors.password?.message}</p>
           )}
-
-          <Box
-            sx={{
-              marginTop: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span>already sign in?</span>
-              <span>
-                <Link to="/sign-in">login here</Link>
-              </span>
-            </div>
-            <Button
-              sx={{ marginTop: "20px" }}
-              type="submit"
-              variant="contained"
-              size="medium"
-            >
-              Submit
-            </Button>
-          </Box>
         </div>
+
+        <div className="inputContainer">
+          <label style={{ fontSize: "20px", display: "block" }}>
+            Confirm password
+          </label>
+          <input
+            style={{
+              marginTop: "10px",
+              fontSize: "20px",
+              width: "99%",
+              padding: "5px",
+              borderRadius: "10px",
+            }}
+            type="password"
+            {...register("confirmPassword", {
+              required: "password is requried!!",
+              validate: (value) => {
+                if (value !== watch("password")) {
+                  return "password do not matched";
+                }
+              },
+            })}
+          />
+          {errors.confirmPassword && (
+            <p style={{ color: "red" }}>{errors.confirmPassword?.message}</p>
+          )}
+        </div>
+
+        <Box
+          sx={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span>already sign in?</span>
+            <span>
+              <Link to="/sign-in">login here</Link>
+            </span>
+          </div>
+          <Button
+            sx={{ marginTop: "20px" }}
+            type="submit"
+            variant="contained"
+            size="medium"
+          >
+            Submit
+          </Button>
+        </Box>
       </form>
     </FormContainer>
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
