@@ -1,9 +1,7 @@
 import FormContainer from "./FormContainer";
 import { useForm } from "react-hook-form";
 import { Box, Button } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/slices/userSlice/userSlice";
+import { Link } from "react-router-dom";
 
 type FromType = {
   email: string;
@@ -16,20 +14,13 @@ const LoginScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FromType>();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, loading, error } = useSelector((state) => state?.auth);
   const onSubmit = (data: { email: string; password: string }) => {
     const userObj = {
       email: data.email,
       password: data.password,
     };
-    dispatch(loginUser(userObj));
-    if (!loading) {
-      navigate("/");
-    }
+    console.log(userObj);
   };
-  console.log({ user, loading, error });
   return (
     <FormContainer>
       <h2 style={{ textAlign: "center" }}>Sign In form</h2>
@@ -89,7 +80,7 @@ const LoginScreen = () => {
               variant="contained"
               size="medium"
             >
-              {loading ? "loading..." : "submit"}
+              submit
             </Button>
           </Box>
         </div>

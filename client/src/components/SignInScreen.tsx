@@ -18,8 +18,14 @@ const SignUpScreen = () => {
     watch,
     formState: { errors },
   } = useForm<FromType>();
-  const onSubmit = (data: { email: string; password: string }) => {
-    console.log(data);
+  const onSubmit = (data: FromType) => {
+    const userObj = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+    };
+    console.log(userObj);
   };
   return (
     <FormContainer>
