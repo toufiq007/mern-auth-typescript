@@ -1,7 +1,10 @@
 import { Box, Button } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
+  const { user } = useSelector((state) => state?.auth);
+
   return (
     <Box>
       <Box
@@ -15,6 +18,7 @@ const HeroSection = () => {
           marginTop: "20px",
         }}
       >
+        <h2>Welcom to {user?.user?.firstName}</h2>
         <h2 style={{ fontSize: "2rem" }}>Mern authentication</h2>
         <p>
           This is mern authentication demo page.Where you can login and signup.

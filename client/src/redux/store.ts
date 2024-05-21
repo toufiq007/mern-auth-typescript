@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./slices/AuthSlices";
+import userReducer from "./slices/userSlice/userSlice";
 
 const store = configureStore({
   reducer: {
-    auth2: authReducer,
+    auth: userReducer,
   },
   middleware: (defaultMiddleware) => defaultMiddleware(),
   devTools: true,
