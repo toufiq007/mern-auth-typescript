@@ -2,6 +2,11 @@ import FormContainer from "./FormContainer";
 import { useForm } from "react-hook-form";
 import { Box, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/slices/loginSlice";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 type FromType = {
   email: string;
@@ -9,18 +14,35 @@ type FromType = {
 };
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
+  const { user, isLoading, isError } = useSelector(
+    (state) => state?.loginState
+  );
+  // console.log(user.data, isLoading, isError);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FromType>();
+
   const onSubmit = (data: { email: string; password: string }) => {
     const userObj = {
       email: data.email,
       password: data.password,
     };
-    console.log(userObj);
+    console.log(user);
+    dispatch(loginUser(userObj));
+    console.log(user);
   };
+
+  useEffect(() => {
+    if (user.data) {
+      toast.success(user.data.message);
+    }
+    if (isError) {
+      toast.error(isError.message);
+    }
+  }, [user, isError]);
   return (
     <FormContainer>
       <h2 style={{ textAlign: "center" }}>Sign In form</h2>
