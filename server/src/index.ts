@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import router from "../routes/user.routes";
 import { conenctDB } from "../config/dbConfig";
+import cors from "cors";
 
 dotenv.config();
 const port = process.env.PORT || 8000;
-conenctDB()
+conenctDB();
 
 const app = express();
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // app routes
 app.use("/users/api/", router);

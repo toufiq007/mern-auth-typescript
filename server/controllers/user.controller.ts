@@ -43,6 +43,7 @@ const userLogin = async (req: Request, res: Response) => {
     generateToken(res, user?._id);
     res.status(200).json({
       message: "user login successfull",
+      user: user,
     });
   } catch (err) {
     console.log(err);
